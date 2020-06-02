@@ -1,4 +1,3 @@
-# Write your code here
 money = 550
 water = 400
 milk = 540
