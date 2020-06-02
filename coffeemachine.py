@@ -11,14 +11,7 @@ class CoffeeMachine:
         self.water = water
         self.milk = milk
         self.coffee = coffee
-        self.cups = cups
-        self.available = {
-            "water" : self.water,
-            "milk" : self.milk,
-            "coffee beans": self.coffee,
-            "disposable cups": self.cups,
-            "money": self.money,
-        } 
+        self.cups = cups 
     def main(self):
         action = input("Write action (buy, fill, take, remaining, exit):\n")
         while action != "exit":
@@ -99,11 +92,5 @@ class CoffeeMachine:
         elif coffee_type == '3':
             make_drink(coffee_type)
 
-
-        
-
-    
-
 coffe_machine = CoffeeMachine(money, water, milk, coffee, cups)
 coffe_machine.main()
-
