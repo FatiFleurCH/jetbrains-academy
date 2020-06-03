@@ -1,24 +1,40 @@
 # write your code here
-cells = raw_input("Enter cells: ")
-square = []
-new_square = []  # Only contains the X, O, _ no extra space or characters
-print("---------")
-for i in range(0, 9, 3):
-    line = "| "
+new_square = [["_", "_", "_"],["_", "_", "_"],["_", "_", "_"]]
+
+def print_square(square):
+  print("---------")
+  for line in square:
     new_line = []
-    for j in range(3):
-        line += cells[i+j] + " "
-        new_line.append(cells[i+j])
-    line += "|"
-    square.append(line)
-    new_square.append(new_line)
-
-for line in square:
-    print(line)
-print("---------")
-
-
-
+    for elem in line:
+      if elem == '_':
+        new_line.append(" ")
+      else:
+        new_line.append(elem)
+    print("| "+ " ".join(new_line)+" |")
+  print("---------")
+def validate_move(player, moves):
+  if moves != 0:
+    move = input("Enter the coordinates: ").split()
+    x = move[0]
+    y = move[-1]
+    valid_moves = [1, 2, 3]
+    if not x.isdigit() or not y.isdigit():
+      print("You should enter numbers!")
+      validate_move(player, moves)
+    else:
+      x = int(x)
+      y = int(y)
+      i = 3 - y
+      j = x - 1
+      if x not in valid_moves or  y not in valid_moves:
+        print("Coordinates should be from 1 to 3!")
+        validate_move(player, moves)
+      elif new_square[i][j] != '_':
+        print("This cell is occupied! Choose another one!")
+        validate_move(player, moves)
+      else:
+        new_square[i][j] = player
+        print_square(new_square)
 def check_win(win_O, win_X):
     if win_O == 3 and win_X == 3:
         return "Impossible"
@@ -28,100 +44,55 @@ def check_win(win_O, win_X):
         return "X wins"
     else:
         return "Nothing much"
-
-def who_won():
+def who_won(square, moves):
     # Horizontal win
-    num_O, num_X = 0, 0
-    for i in range(3):
-        for j in range(3):
-            if new_square[i][j] == 'O':
-                num_O += 1
-            elif new_square[i][j] == 'X':
-                num_X += 1
-    if abs(num_O - num_X) > 1:
-        return "Impossible"
-        
-    listwin_X = []
-    listwin_O = []
-    for i in range(3):
-        win_O, win_X = 0, 0
-        for j in range(3):
-            if new_square[i][j] == 'O':
-                win_O += 1
-            elif new_square[i][j] == 'X':
-                win_X += 1
-        listwin_X.append(win_X)
-        listwin_O.append(win_O)
-
-    if 3 in listwin_X and 3 in listwin_O:
-        return "Impossible"
-    elif 3 in listwin_O:
-        return "O wins"
-    elif 3 in listwin_X:
+    for line in square:
+      if "".join(line) == "XXX":
         return "X wins"
-    
+      elif "".join(line) == "OOO":
+        return "O wins"
     # Vertical win
-    listwin_X = []
-    listwin_O = []
-    for j in range(3):
-        win_O, win_X = 0, 0
-        for i in range(3):
-            if new_square[i][j] == 'O':
-                win_O += 1
-            elif new_square[i][j] == 'X':
-                win_X += 1
-        listwin_X.append(win_X)
-        listwin_O.append(win_O)
-
-    if 3 in listwin_X and 3 in listwin_O:
-        return "Impossible"
-    elif 3 in listwin_O:
-        return "O wins"
-    elif 3 in listwin_X:
-        return "X wins"
-    
-    # Left Diagonal win
-    win_O = 0
-    win_X = 0
+    reversed_square = []
     for i in range(3):
-        if new_square[i][i] == 'O':
-            win_O += 1
-        elif new_square[i][i] == 'X':
-            win_X += 1
-    
-    if win_O == 3 and win_X == 3:
-        return "Impossible"
-    elif win_O == 3:
-        return "O wins"
-    elif win_X == 3:
+      line = ""
+      for j in range(3):
+        line += square[i][j]
+      reversed_square.append(line)
+    for line in square:
+      if line == "XXX":
         return "X wins"
-    
-    # Right Diagonal win
-    win_O = 0
-    win_X = 0
-    for i in range(3):
-        j = 3 - (i + 1)
-        if new_square[i][j] == 'O':
-            win_O += 1
-        elif new_square[i][j] == 'X':
-            win_X += 1
-
-    if win_O == 3 and win_X == 3:
-        return "Impossible"
-    elif win_O == 3:
+      elif line == "OOO":
         return "O wins"
-    elif win_X == 3:
-        return "X wins"
-
-    #Game not finished
-    for i in range(3):
-        win_ = 0
-        for j in range(3):
-            if new_square[i][j] == '_':
-                win_ += 1
-    if win_ > 0:
-        return "Game not finished"
-    else:
-        return "Draw"
     
-print(who_won())
+    # \ win
+    diagonal1 = square[0][0] + square[1][1] + square[2][2]
+    if diagonal1 == "XXX":
+      return "X wins"
+    elif diagonal1 == "OOO":
+      return "O wins"
+    
+    # / win
+    diagonal1 = square[0][2] + square[1][1] + square[2][0]
+    if diagonal1 == "XXX":
+      return "X wins"
+    elif diagonal1 == "OOO":
+      return "O wins"
+    
+    #Draw
+    if moves == 0:
+      return "Draw"
+    
+#Initial square
+print_square(new_square)
+moves = 9
+while moves > 0:
+  validate_move("X", moves)
+  if who_won(new_square, moves) == "X wins" or who_won(new_square, moves) == "O wins" or who_won(new_square, moves) == "Draw":
+    print(who_won(new_square, moves))
+    break
+  moves -= 1
+  validate_move("O", moves)
+  if who_won(new_square, moves) == "X wins" or who_won(new_square, moves) == "O wins" or who_won(new_square, moves) == "Draw":
+    print(who_won(new_square, moves))
+    break
+  moves -= 1
