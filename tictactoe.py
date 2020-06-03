@@ -1,4 +1,3 @@
-# write your code here
 new_square = [["_", "_", "_"],["_", "_", "_"],["_", "_", "_"]]
 
 def print_square(square):
