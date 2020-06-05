@@ -42,17 +42,7 @@ def validate_move(player, moves):
       else:
         new_square[i][j] = player
         print_square(new_square)
-        
-def check_win(win_O, win_X):
-    if win_O == 3 and win_X == 3:
-        return "Impossible"
-    elif win_O == 3:
-        return "O wins"
-    elif win_X == 3:
-        return "X wins"
-    else:
-        return "Nothing much"
-      
+              
 def who_won(square, moves):
     # Horizontal win
     for line in square:
