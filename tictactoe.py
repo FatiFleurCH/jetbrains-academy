@@ -51,7 +51,6 @@ def who_won(square, moves):
       elif "".join(line) == "OOO":
         return "O wins"
     # Vertical win
-    reversed_square = []
     for i in range(3):
       line = ""
       for j in range(3):
