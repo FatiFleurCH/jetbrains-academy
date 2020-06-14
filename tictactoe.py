@@ -55,9 +55,7 @@ def who_won(square, moves):
     for i in range(3):
       line = ""
       for j in range(3):
-        line += square[i][j]
-      reversed_square.append(line)
-    for line in reversed_square:
+        line += square[j][i]
       if line == "XXX":
         return "X wins"
       elif line == "OOO":
