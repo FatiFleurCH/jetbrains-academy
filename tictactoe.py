@@ -9,13 +9,13 @@ class TwoHumanPlayers():
     while moves > 0:
       print("Player 1, it's your turn!\n")
       self.validate_move("X", moves)
-      if self.who_won(new_square, moves) == "X wins" or self.who_won(new_square, moves) == "O wins" or self.who_won(new_square, moves) == "Draw":
+      if self.who_won(new_square, moves) == "X wins" or self.who_won(new_square, moves) == "Draw":
         print(self.who_won(new_square, moves))
         break
       moves -= 1
       print("Player 2, show us what you got\n")
       self.validate_move("O", moves)
-      if self.who_won(new_square, moves) == "X wins" or self.who_won(new_square, moves) == "O wins" or self.who_won(new_square, moves) == "Draw":
+      if self.who_won(new_square, moves) == "O wins" or self.who_won(new_square, moves) == "Draw":
         print(self.who_won(new_square, moves))
         break
       moves -= 1
@@ -107,3 +107,4 @@ new_square = [
 
 tictactoe_version1 = TwoHumanPlayers(new_square)
 tictactoe_version1.main()
+
